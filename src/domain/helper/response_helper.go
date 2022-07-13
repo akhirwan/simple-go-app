@@ -34,7 +34,8 @@ func Response401(message string, errorCode int) {
 func ResponseOK(c *fiber.Ctx, response interface{}) error {
 
 	return c.Status(http.StatusOK).JSON(model.WebResponse{
-		Data:    response,
+		Code:    fiber.StatusOK,
 		Message: MessageOK,
+		Data:    response,
 	})
 }

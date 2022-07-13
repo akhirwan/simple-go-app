@@ -28,5 +28,8 @@ func (a *APIRouter) Route() *fiber.App {
 	prHandler := handler.NewPurchaseRequestHandler(a.Config)
 	a.App.Get("/request", prHandler.GetAll)
 
+	masterHandler := handler.NewMasterEmployeesHandler(a.Config)
+	a.App.Get("/employees", masterHandler.FindAll)
+
 	return a.App
 }

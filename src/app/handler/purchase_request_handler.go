@@ -23,5 +23,5 @@ func (p *PurchaseRequestHandler) GetAll(c *fiber.Ctx) error {
 	task := task.NewPurchaseRequestTask(&task.Task{}, p.Config)
 	response := task.Execute(c)
 
-	return helper.ResponseOK(c, response.Error())
+	return helper.ResponseOK(c, response)
 }

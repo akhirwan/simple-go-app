@@ -22,7 +22,11 @@ func NewPurchaseRequestTask(Task *Task, config config.Configuration) *purchaseRe
 	}
 }
 
-func (p *purchaseRequestTask) Execute(c *fiber.Ctx) error {
+func (p *purchaseRequestTask) Execute(c *fiber.Ctx) interface{} {
 	log.Println("bakekoxxxx")
-	return c.SendString("bakekoxxxx")
+	return map[string]interface{}{
+		"companyID": "companyID",
+		"plantID":   "plantID",
+		"period":    "200601",
+	}
 }
