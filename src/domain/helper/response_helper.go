@@ -2,8 +2,8 @@ package helper
 
 import (
 	"net/http"
-	"simple-procurement/src/domain/exception"
-	"simple-procurement/src/domain/model"
+	"simple-go-app/src/domain/exception"
+	"simple-go-app/src/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

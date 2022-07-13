@@ -1,8 +1,8 @@
 package webapi
 
 import (
-	"simple-procurement/src/app/handler"
-	"simple-procurement/src/infrastructure/config"
+	"simple-go-app/src/app/handler"
+	"simple-go-app/src/infrastructure/config"
 
 	"github.com/gofiber/fiber/v2"
 )

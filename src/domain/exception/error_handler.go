@@ -1,7 +1,7 @@
 package exception
 
 import (
-	"simple-procurement/src/domain/model"
+	"simple-go-app/src/domain/model"
 
 	"github.com/gofiber/fiber/v2"
 )

@@ -2,7 +2,7 @@ package config
 
 import (
 	"os"
-	"simple-procurement/src/domain/exception"
+	"simple-go-app/src/domain/exception"
 
 	"github.com/joho/godotenv"
 )

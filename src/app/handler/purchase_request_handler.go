@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"simple-procurement/src/app/task"
-	"simple-procurement/src/domain/helper"
-	"simple-procurement/src/infrastructure/config"
+	"simple-go-app/src/app/task"
+	"simple-go-app/src/domain/helper"
+	"simple-go-app/src/infrastructure/config"
 
 	"github.com/gofiber/fiber/v2"
 )

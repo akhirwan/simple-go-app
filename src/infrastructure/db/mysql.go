@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 	"log"
-	"simple-procurement/src/infrastructure/config"
+	"simple-go-app/src/infrastructure/config"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"

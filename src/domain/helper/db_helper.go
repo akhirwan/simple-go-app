@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"simple-procurement/src/infrastructure/config"
-	"simple-procurement/src/infrastructure/db"
+	"simple-go-app/src/infrastructure/config"
+	"simple-go-app/src/infrastructure/db"
 	"strconv"
 )
 

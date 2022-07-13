@@ -2,9 +2,9 @@ package task
 
 import (
 	"log"
-	"simple-procurement/src/domain/helper"
-	"simple-procurement/src/infrastructure/config"
-	"simple-procurement/src/infrastructure/db"
+	"simple-go-app/src/domain/helper"
+	"simple-go-app/src/infrastructure/config"
+	"simple-go-app/src/infrastructure/db"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/jmoiron/sqlx"

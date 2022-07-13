@@ -1,9 +1,9 @@
 package app
 
 import (
-	"simple-procurement/src/app/webapi"
-	"simple-procurement/src/infrastructure/config"
-	"simple-procurement/src/infrastructure/web"
+	"simple-go-app/src/app/webapi"
+	"simple-go-app/src/infrastructure/config"
+	"simple-go-app/src/infrastructure/web"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"

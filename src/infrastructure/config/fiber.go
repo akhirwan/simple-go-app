@@ -1,7 +1,7 @@
 package config
 
 import (
-	"simple-procurement/src/domain/exception"
+	"simple-go-app/src/domain/exception"
 
 	"github.com/gofiber/fiber/v2"
 )

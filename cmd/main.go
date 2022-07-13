@@ -1,8 +1,6 @@
 package main
 
-import (
-	"simple-procurement/src/app"
-)
+import "simple-go-app/src/app"
 
 func main() {
 	app.NewApp().Run()
