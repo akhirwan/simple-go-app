@@ -1,0 +1,20 @@
+' overview flow
+@startuml overview
+left to right direction
+' actor "Admin" as admin
+actor "User" as user
+actor "Purchasing Staff" as PS
+actor "Receiving Staff" as RS
+actor "Finance And Accounting Staff" as FNA
+rectangle Procurement {
+  usecase "Purchase Request" as PR
+  usecase "Purchase Order" as PO
+  usecase "Receiving Value" as RV
+  usecase "Payment" as Pay
+}
+user --> PR
+PS --> PO
+RS --> RV
+FNA --> Pay
+
+@enduml
