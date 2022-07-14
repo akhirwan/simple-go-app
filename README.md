@@ -8,4 +8,4 @@ Stack used are:
 3. MySQL
 
 How to installation: <br />
-```just rename .env_sample to .env AND replace mysql config with your's mysql config```
+just rename ```.env_sample``` to ```.env``` AND replace mysql config with your's mysql config
