@@ -140,7 +140,7 @@ func (m *MasterEmployeesRepository) IfExistByID(id string) (bool, error) {
 	}
 
 	if len(data) == 0 {
-		return false, nil
+		return false, err
 	}
 
 	return true, nil

@@ -31,10 +31,23 @@ func Response401(message string, errorCode int) {
 	exception.PanicIfNeeded(exception.ValidationError{Status: 401, Message: message, ErrorCode: errorCode})
 }
 
+func Response404(message string, errorCode int) {
+	exception.PanicIfNeeded(exception.ValidationError{Status: 404, Message: message, ErrorCode: errorCode})
+}
+
 func ResponseOK(c *fiber.Ctx, response interface{}) error {
 
 	return c.Status(http.StatusOK).JSON(model.WebResponse{
 		Code:    fiber.StatusOK,
+		Message: MessageOK,
+		Data:    response,
+	})
+}
+
+func ResponseNotFound(c *fiber.Ctx, response interface{}) error {
+
+	return c.Status(http.StatusNotFound).JSON(model.WebResponse{
+		Code:    fiber.StatusNotFound,
 		Message: MessageOK,
 		Data:    response,
 	})

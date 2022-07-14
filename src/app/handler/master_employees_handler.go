@@ -51,9 +51,7 @@ func (m *MasterEmployeesHandler) Add(c *fiber.Ctx) error {
 
 	task := task.NewMasterEmployeesTask(&task.Task{}, m.Config)
 	response, err := task.Add(&request)
-	if err != nil {
-		return err
-	}
+	exception.PanicIfNeeded(err)
 
 	helper.MessageOK = "1 Data recorded"
 	return helper.ResponseOK(c, response)
@@ -68,11 +66,14 @@ func (m *MasterEmployeesHandler) Edit(c *fiber.Ctx) error {
 	request.ID, _ = strconv.ParseInt(c.Params("id"), 10, 64)
 
 	task := task.NewMasterEmployeesTask(&task.Task{}, m.Config)
-	response, err := task.Add(&request)
-	if err != nil {
-		return err
+	status, err := task.Edit(&request)
+	exception.PanicIfNeeded(err)
+
+	if status == 404 {
+		helper.MessageOK = fmt.Sprintf("ID %v is not found", request.ID)
+		return helper.ResponseNotFound(c, nil)
 	}
 
-	helper.MessageOK = "1 Data recorded"
-	return helper.ResponseOK(c, response)
+	helper.MessageOK = fmt.Sprintf("Data with ID %v is updated", request.ID)
+	return helper.ResponseOK(c, request)
 }

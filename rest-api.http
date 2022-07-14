@@ -22,12 +22,12 @@ Accept: application/json
 }
 
 ### PUT MASTER EMPLOYEE
-PUT http://localhost:3300/employee/coming-soon
+PUT http://localhost:3300/employee/20220303004
 Content-Type: application/json
 Accept: application/json
 
 {
-    "name": "tatang",
+    "name": "udin",
     "dept_id": "55",
     "level": "5",
     "join_date": "2022-03-03",

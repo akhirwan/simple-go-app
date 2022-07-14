@@ -1,6 +1,7 @@
 package task
 
 import (
+	"simple-go-app/src/domain/exception"
 	"simple-go-app/src/domain/helper"
 	"simple-go-app/src/domain/master/employees"
 	"simple-go-app/src/domain/model"
@@ -31,9 +32,7 @@ func (m *masterEmployeesTask) FindAll() (response []*model.MasterEmployeesModel,
 	employeeService := employees.NewFindAllMasterEmployeesService(employeeRepo)
 
 	response, err = employeeService.FindAll()
-	if err != nil {
-		return nil, err
-	}
+	exception.PanicIfNeeded(err)
 
 	return response, nil
 }
@@ -43,21 +42,17 @@ func (m *masterEmployeesTask) Add(request *model.MasterEmployeesModel) (*model.M
 	employeeService := employees.NewAddMasterEmployeesService(employeeRepo)
 
 	err := employeeService.Add(request)
-	if err != nil {
-		return nil, err
-	}
+	exception.PanicIfNeeded(err)
 
 	return request, nil
 }
 
-func (m *masterEmployeesTask) Edit(request *model.MasterEmployeesModel) (*model.MasterEmployeesModel, error) {
+func (m *masterEmployeesTask) Edit(request *model.MasterEmployeesModel) (int, error) {
 	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
 	employeeService := employees.NewEditMasterEmployeesService(employeeRepo)
 
-	err := employeeService.Edit(request)
-	if err != nil {
-		return nil, err
-	}
+	response, err := employeeService.Edit(request)
+	exception.PanicIfNeeded(err)
 
-	return request, nil
+	return response, nil
 }
