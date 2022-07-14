@@ -5,22 +5,21 @@ import (
 	"simple-go-app/src/domain/model"
 )
 
-type MasterEmployeesService struct {
+type FindAllMasterEmployeesService struct {
 	Repository interfaces.MasterEmployeesRepositoryInterfaces
 }
 
-func NewMasterEmployeesService(
+func NewFindAllMasterEmployeesService(
 	repository interfaces.MasterEmployeesRepositoryInterfaces,
-) *MasterEmployeesService {
-	return &MasterEmployeesService{
+) *FindAllMasterEmployeesService {
+	return &FindAllMasterEmployeesService{
 		Repository: repository,
 	}
 }
 
-func (m *MasterEmployeesService) FindAll() ([]*model.MasterEmployeesResponseModel, error) {
-	var result []*model.MasterEmployeesResponseModel
+func (m *FindAllMasterEmployeesService) FindAll() (result []*model.MasterEmployeesModel, err error) {
 
-	result, err := m.Repository.FindAll()
+	result, err = m.Repository.FindAll()
 	if err != nil {
 		return nil, err
 	}
@@ -30,8 +29,8 @@ func (m *MasterEmployeesService) FindAll() ([]*model.MasterEmployeesResponseMode
 	return result, nil
 }
 
-func (m *MasterEmployeesService) cleanseData(masterData []*model.MasterEmployeesResponseModel) []*model.MasterEmployeesResponseModel {
-	var data []*model.MasterEmployeesResponseModel
+func (m *FindAllMasterEmployeesService) cleanseData(masterData []*model.MasterEmployeesModel) []*model.MasterEmployeesModel {
+	var data []*model.MasterEmployeesModel
 
 	for _, row := range masterData {
 		row.JoinDate = row.JoinDate[:10]

@@ -26,9 +26,9 @@ func NewMasterEmployeesTask(
 	}
 }
 
-func (m *masterEmployeesTask) FindAll() (response []*model.MasterEmployeesResponseModel, err error) {
+func (m *masterEmployeesTask) FindAll() (response []*model.MasterEmployeesModel, err error) {
 	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
-	employeeService := employees.NewMasterEmployeesService(employeeRepo)
+	employeeService := employees.NewFindAllMasterEmployeesService(employeeRepo)
 
 	response, err = employeeService.FindAll()
 	if err != nil {
@@ -36,4 +36,16 @@ func (m *masterEmployeesTask) FindAll() (response []*model.MasterEmployeesRespon
 	}
 
 	return response, nil
+}
+
+func (m *masterEmployeesTask) Add(request *model.MasterEmployeesModel) (*model.MasterEmployeesModel, error) {
+	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
+	employeeService := employees.NewAddMasterEmployeesService(employeeRepo)
+
+	err := employeeService.Add(request)
+	if err != nil {
+		return nil, err
+	}
+
+	return request, nil
 }

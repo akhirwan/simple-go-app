@@ -31,6 +31,9 @@ func (a *APIRouter) Route() *fiber.App {
 	masterHandler := handler.NewMasterEmployeesHandler(a.Config)
 	a.App.Get("/employees", masterHandler.FindAll)
 	a.App.Post("/employee", masterHandler.Add)
+	a.App.Put("/employee/:id", func(c *fiber.Ctx) error {
+		return c.SendString(c.Params("id"))
+	})
 
 	return a.App
 }

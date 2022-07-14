@@ -1,6 +1,6 @@
 # simple-go-app
 
-## This is simple CRUD with clean architecture
+## This is just simple CRUD API with clean architecture
 
 Stack used are:
 1. Golang language
