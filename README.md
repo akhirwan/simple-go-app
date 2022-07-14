@@ -9,3 +9,5 @@ Stack used are:
 
 How to installation: <br />
 just rename ```.env_sample``` to ```.env``` AND replace mysql config with your's mysql config
+
+# HAVE FUN !!!
