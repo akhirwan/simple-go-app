@@ -35,3 +35,7 @@ func (m *MasterEmployeesHandler) FindAll(c *fiber.Ctx) error {
 
 	return helper.ResponseOK(c, response)
 }
+
+func (m *MasterEmployeesHandler) Add(c *fiber.Ctx) error {
+	return helper.ResponseOK(c, map[string]interface{}{})
+}
