@@ -49,3 +49,15 @@ func (m *masterEmployeesTask) Add(request *model.MasterEmployeesModel) (*model.M
 
 	return request, nil
 }
+
+func (m *masterEmployeesTask) Edit(request *model.MasterEmployeesModel) (*model.MasterEmployeesModel, error) {
+	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
+	employeeService := employees.NewEditMasterEmployeesService(employeeRepo)
+
+	err := employeeService.Edit(request)
+	if err != nil {
+		return nil, err
+	}
+
+	return request, nil
+}

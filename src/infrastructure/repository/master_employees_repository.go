@@ -77,9 +77,7 @@ func (m *MasterEmployeesRepository) FindAll() (data []*model.MasterEmployeesMode
 
 	tx := m.DB.MustBegin()
 
-	err = tx.Select(
-		&data,
-		`SELECT * FROM master_employee;`)
+	err = tx.Select(&data, `SELECT * FROM master_employee;`)
 
 	if err != nil {
 		pp.Println("[FATAL] From read master_employees : ", err)
@@ -100,9 +98,8 @@ func (m *MasterEmployeesRepository) FindLastID(date time.Time) (result int64, er
 
 	tx := m.DB.MustBegin()
 
-	err = tx.Select(
-		&data,
-		`SELECT IFNULL(MAX(id), 0) id FROM master_employee WHERE LEFT(id, 8) = ? ;`,
+	err = tx.Select(&data,
+		`SELECT IFNULL(MAX(id), 0) id FROM master_employee WHERE LEFT(id, 8) = ?;`,
 		date.Format("20060102"))
 
 	if err != nil {
@@ -122,4 +119,29 @@ func (m *MasterEmployeesRepository) FindLastID(date time.Time) (result int64, er
 	}
 
 	return result, nil
+}
+
+func (m *MasterEmployeesRepository) IfExistByID(id string) (bool, error) {
+	var data []*model.MasterEmployeesModel
+
+	tx := m.DB.MustBegin()
+
+	err := tx.Select(&data, `SELECT * FROM master_employee WHERE id = ?;`, id)
+
+	if err != nil {
+		pp.Println("[FATAL] From read master_employees : ", err)
+		tx.Rollback()
+		return false, err
+	} else {
+		err = tx.Commit()
+		if err != nil {
+			return false, err
+		}
+	}
+
+	if len(data) == 0 {
+		return false, nil
+	}
+
+	return true, nil
 }

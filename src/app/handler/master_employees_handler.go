@@ -55,6 +55,24 @@ func (m *MasterEmployeesHandler) Add(c *fiber.Ctx) error {
 		return err
 	}
 
-	helper.MessageOK = "test keneh"
+	helper.MessageOK = "1 Data recorded"
+	return helper.ResponseOK(c, response)
+}
+
+func (m *MasterEmployeesHandler) Edit(c *fiber.Ctx) error {
+	var request model.MasterEmployeesModel
+
+	err := c.BodyParser(&request)
+	exception.PanicIfBadRequest(err)
+
+	request.ID, _ = strconv.ParseInt(c.Params("id"), 10, 64)
+
+	task := task.NewMasterEmployeesTask(&task.Task{}, m.Config)
+	response, err := task.Add(&request)
+	if err != nil {
+		return err
+	}
+
+	helper.MessageOK = "1 Data recorded"
 	return helper.ResponseOK(c, response)
 }
