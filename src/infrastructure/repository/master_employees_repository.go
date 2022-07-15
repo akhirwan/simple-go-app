@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"simple-go-app/src/domain/model"
+	"simple-go-app/src/infrastructure/entity"
 	"strconv"
 	"time"
 
@@ -19,7 +19,7 @@ func NewMasterEmployeesRepository(db *sqlx.DB) *MasterEmployeesRepository {
 	}
 }
 
-func (m *MasterEmployeesRepository) Insert(data []*model.MasterEmployeesModel) error {
+func (m *MasterEmployeesRepository) Record(data []*entity.MasterEmployeesEntity) error {
 	tx := m.DB.MustBegin()
 
 	_, err := tx.NamedExec(
@@ -73,7 +73,7 @@ func (m *MasterEmployeesRepository) Insert(data []*model.MasterEmployeesModel) e
 	return nil
 }
 
-func (m *MasterEmployeesRepository) FindAll() (data []*model.MasterEmployeesModel, err error) {
+func (m *MasterEmployeesRepository) FindAll() (data []*entity.MasterEmployeesEntity, err error) {
 
 	tx := m.DB.MustBegin()
 
@@ -93,8 +93,33 @@ func (m *MasterEmployeesRepository) FindAll() (data []*model.MasterEmployeesMode
 	return data, nil
 }
 
+func (m *MasterEmployeesRepository) FindByID(id string) (*entity.MasterEmployeesEntity, error) {
+	var data []*entity.MasterEmployeesEntity
+
+	tx := m.DB.MustBegin()
+
+	err := tx.Select(&data, `SELECT * FROM master_employee WHERE id = ?;`, id)
+
+	if err != nil {
+		pp.Println("[FATAL] From read master_employees : ", err)
+		tx.Rollback()
+		return nil, err
+	} else {
+		err = tx.Commit()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if len(data) == 0 {
+		return nil, err
+	}
+
+	return data[0], nil
+}
+
 func (m *MasterEmployeesRepository) FindLastID(date time.Time) (result int64, err error) {
-	var data []*model.MasterEmployeesModel
+	var data []*entity.MasterEmployeesEntity
 
 	tx := m.DB.MustBegin()
 
@@ -121,8 +146,8 @@ func (m *MasterEmployeesRepository) FindLastID(date time.Time) (result int64, er
 	return result, nil
 }
 
-func (m *MasterEmployeesRepository) IfExistByID(id string) (bool, error) {
-	var data []*model.MasterEmployeesModel
+func (m *MasterEmployeesRepository) IsExistByID(id string) (bool, error) {
+	var data []*entity.MasterEmployeesEntity
 
 	tx := m.DB.MustBegin()
 

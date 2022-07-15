@@ -8,7 +8,6 @@ import (
 	"simple-go-app/src/domain/model"
 	"simple-go-app/src/infrastructure/config"
 	"strconv"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -41,13 +40,10 @@ func (m *MasterEmployeesHandler) FindAll(c *fiber.Ctx) error {
 }
 
 func (m *MasterEmployeesHandler) Add(c *fiber.Ctx) error {
-	var request model.MasterEmployeesModel
+	var request model.MasterEmployeesRequestModel
 
 	err := c.BodyParser(&request)
 	exception.PanicIfBadRequest(err)
-
-	joinDate, _ := time.Parse("2006-01-02", request.JoinDate)
-	request.ID, _ = strconv.ParseInt(joinDate.Format("20060102")+"000", 10, 64)
 
 	task := task.NewMasterEmployeesTask(&task.Task{}, m.Config)
 	response, err := task.Add(&request)
@@ -58,7 +54,7 @@ func (m *MasterEmployeesHandler) Add(c *fiber.Ctx) error {
 }
 
 func (m *MasterEmployeesHandler) Edit(c *fiber.Ctx) error {
-	var request model.MasterEmployeesModel
+	var request model.MasterEmployeesRequestModel
 
 	err := c.BodyParser(&request)
 	exception.PanicIfBadRequest(err)
@@ -76,4 +72,23 @@ func (m *MasterEmployeesHandler) Edit(c *fiber.Ctx) error {
 
 	helper.MessageOK = fmt.Sprintf("Data with ID %v is updated", request.ID)
 	return helper.ResponseOK(c, request)
+}
+
+func (m *MasterEmployeesHandler) Activate(c *fiber.Ctx) error {
+	task := task.NewMasterEmployeesTask(&task.Task{}, m.Config)
+	httpStatus, isActive, err := task.Activate(c.Params("id"))
+	exception.PanicIfNeeded(err)
+
+	if httpStatus == 404 {
+		helper.MessageOK = fmt.Sprintf("ID %s is not found", c.Params("id"))
+		return helper.ResponseNotFound(c, nil)
+	}
+
+	helper.MessageOK = fmt.Sprintf("Data with ID %v is updated", c.Params("id"))
+	id, _ := strconv.ParseInt(c.Params("id"), 10, 64)
+
+	return helper.ResponseOK(c, &model.MasterEmployeesActivateRequestModel{
+		ID:       id,
+		IsActive: isActive,
+	})
 }

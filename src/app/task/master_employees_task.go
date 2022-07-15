@@ -27,32 +27,42 @@ func NewMasterEmployeesTask(
 	}
 }
 
-func (m *masterEmployeesTask) FindAll() (response []*model.MasterEmployeesModel, err error) {
+func (m *masterEmployeesTask) FindAll() (response []*model.MasterEmployeesResponseModel, err error) {
 	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
-	employeeService := employees.NewFindAllMasterEmployeesService(employeeRepo)
 
+	employeeService := employees.NewFindAllMasterEmployeesService(employeeRepo)
 	response, err = employeeService.FindAll()
 	exception.PanicIfNeeded(err)
 
 	return response, nil
 }
 
-func (m *masterEmployeesTask) Add(request *model.MasterEmployeesModel) (*model.MasterEmployeesModel, error) {
+func (m *masterEmployeesTask) Add(request *model.MasterEmployeesRequestModel) (int, error) {
 	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
+
 	employeeService := employees.NewAddMasterEmployeesService(employeeRepo)
-
-	err := employeeService.Add(request)
-	exception.PanicIfNeeded(err)
-
-	return request, nil
-}
-
-func (m *masterEmployeesTask) Edit(request *model.MasterEmployeesModel) (int, error) {
-	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
-	employeeService := employees.NewEditMasterEmployeesService(employeeRepo)
-
-	response, err := employeeService.Edit(request)
+	response, err := employeeService.Add(request)
 	exception.PanicIfNeeded(err)
 
 	return response, nil
+}
+
+func (m *masterEmployeesTask) Edit(request *model.MasterEmployeesRequestModel) (int, error) {
+	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
+
+	employeeService := employees.NewEditMasterEmployeesService(employeeRepo)
+	httpStatus, err := employeeService.Edit(request)
+	exception.PanicIfNeeded(err)
+
+	return httpStatus, nil
+}
+
+func (m *masterEmployeesTask) Activate(id string) (int, bool, error) {
+	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
+
+	employeeService := employees.NewActivateMasterEmployeesService(employeeRepo)
+	httpStatus, isActive, err := employeeService.Activate(id)
+	exception.PanicIfNeeded(err)
+
+	return httpStatus, isActive, nil
 }

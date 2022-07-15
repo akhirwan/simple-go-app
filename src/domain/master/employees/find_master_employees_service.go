@@ -3,6 +3,7 @@ package employees
 import (
 	"simple-go-app/src/domain/interfaces"
 	"simple-go-app/src/domain/model"
+	"simple-go-app/src/infrastructure/entity"
 )
 
 type FindAllMasterEmployeesService struct {
@@ -17,26 +18,24 @@ func NewFindAllMasterEmployeesService(
 	}
 }
 
-func (m *FindAllMasterEmployeesService) FindAll() (result []*model.MasterEmployeesModel, err error) {
+func (m *FindAllMasterEmployeesService) FindAll() (response []*model.MasterEmployeesResponseModel, err error) {
 
-	result, err = m.Repository.FindAll()
+	result, err := m.Repository.FindAll()
 	if err != nil {
 		return nil, err
 	}
 
-	result = m.cleanseData(result)
+	response = m.cleanseData(result)
 
-	return result, nil
+	return response, nil
 }
 
-func (m *FindAllMasterEmployeesService) cleanseData(masterData []*model.MasterEmployeesModel) []*model.MasterEmployeesModel {
-	var data []*model.MasterEmployeesModel
-
+func (m *FindAllMasterEmployeesService) cleanseData(masterData []*entity.MasterEmployeesEntity) (data []*model.MasterEmployeesResponseModel) {
 	for _, row := range masterData {
 		row.JoinDate = row.JoinDate[:10]
 		row.DOB = row.DOB[:10]
 
-		data = append(data, row)
+		data = append(data, (*model.MasterEmployeesResponseModel)(row))
 	}
 
 	return data

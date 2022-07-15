@@ -1,13 +1,14 @@
 package interfaces
 
 import (
-	"simple-go-app/src/domain/model"
+	"simple-go-app/src/infrastructure/entity"
 	"time"
 )
 
 type MasterEmployeesRepositoryInterfaces interface {
-	Insert(data []*model.MasterEmployeesModel) error
-	FindAll() (data []*model.MasterEmployeesModel, err error)
+	Record(data []*entity.MasterEmployeesEntity) error
+	FindAll() (data []*entity.MasterEmployeesEntity, err error)
+	FindByID(id string) (*entity.MasterEmployeesEntity, error)
 	FindLastID(date time.Time) (result int64, err error)
-	IfExistByID(id string) (bool, error)
+	IsExistByID(id string) (bool, error)
 }
