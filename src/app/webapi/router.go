@@ -30,6 +30,7 @@ func (a *APIRouter) Route() *fiber.App {
 
 	employeesHandler := handler.NewMasterEmployeesHandler(a.Config)
 	a.App.Get("/employees", employeesHandler.FindAll)
+	a.App.Get("/employee/:id", employeesHandler.Show)
 	a.App.Post("/employee", employeesHandler.Add)
 	a.App.Put("/employee/:id", employeesHandler.Edit)
 	a.App.Patch("employee/activate/:id", employeesHandler.Activate)

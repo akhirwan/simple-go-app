@@ -25,17 +25,29 @@ func NewMasterEmployeesHandler(config config.Configuration) MasterEmployeesHandl
 func (m *MasterEmployeesHandler) FindAll(c *fiber.Ctx) error {
 	task := task.NewMasterEmployeesTask(&task.Task{}, m.Config)
 
-	response, err := task.FindAll()
-	if err != nil {
-		return err
+	responses, err := task.FindAll()
+	exception.PanicIfNeeded(err)
+
+	helper.MessageOK = fmt.Sprintf("Get %v row data successed", len(responses))
+
+	if len(responses) > 1 {
+		helper.MessageOK = fmt.Sprintf("Get %v rows data successed", len(responses))
 	}
 
-	helper.MessageOK = fmt.Sprintf("Get %v row data successed", len(response))
+	return helper.ResponseOK(c, responses)
+}
 
-	if len(response) > 1 {
-		helper.MessageOK = fmt.Sprintf("Get %v rows data successed", len(response))
+func (m *MasterEmployeesHandler) Show(c *fiber.Ctx) error {
+	task := task.NewMasterEmployeesTask(&task.Task{}, m.Config)
+	httpStatus, response, err := task.Show(c.Params("id"))
+	exception.PanicIfNeeded(err)
+
+	if httpStatus == 404 {
+		helper.MessageOK = fmt.Sprintf("ID %s is not found", c.Params("id"))
+		return helper.ResponseNotFound(c, nil)
 	}
 
+	helper.MessageOK = fmt.Sprintf("ID %s is found", c.Params("id"))
 	return helper.ResponseOK(c, response)
 }
 

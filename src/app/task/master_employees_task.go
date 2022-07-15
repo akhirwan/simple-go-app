@@ -27,14 +27,24 @@ func NewMasterEmployeesTask(
 	}
 }
 
-func (m *masterEmployeesTask) FindAll() (response []*model.MasterEmployeesResponseModel, err error) {
+func (m *masterEmployeesTask) FindAll() (responses []*model.MasterEmployeesResponseModel, err error) {
 	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
 
 	employeeService := employees.NewFindAllMasterEmployeesService(employeeRepo)
-	response, err = employeeService.FindAll()
+	responses, err = employeeService.FindAll()
 	exception.PanicIfNeeded(err)
 
-	return response, nil
+	return responses, nil
+}
+
+func (m *masterEmployeesTask) Show(id string) (int, *model.MasterEmployeesResponseModel, error) {
+	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
+
+	employeeService := employees.NewShowMasterEmployeesService(employeeRepo)
+	httpStatus, response, err := employeeService.Show(id)
+	exception.PanicIfNeeded(err)
+
+	return httpStatus, response, nil
 }
 
 func (m *masterEmployeesTask) Add(request *model.MasterEmployeesRequestModel) (int, error) {

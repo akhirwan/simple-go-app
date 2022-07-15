@@ -1,5 +1,10 @@
-### READ MASTER EMPLOYEES
+### READ MANY MASTER EMPLOYEES
 GET http://localhost:1250/employees
+Content-Type: application/json
+Accept: application/json
+
+### READ ONE MASTER EMPLOYEE
+GET http://localhost:1250/employee/20220303002
 Content-Type: application/json
 Accept: application/json
 

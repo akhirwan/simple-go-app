@@ -18,16 +18,16 @@ func NewFindAllMasterEmployeesService(
 	}
 }
 
-func (m *FindAllMasterEmployeesService) FindAll() (response []*model.MasterEmployeesResponseModel, err error) {
+func (m *FindAllMasterEmployeesService) FindAll() (responses []*model.MasterEmployeesResponseModel, err error) {
 
 	result, err := m.Repository.FindAll()
 	if err != nil {
 		return nil, err
 	}
 
-	response = m.cleanseData(result)
+	responses = m.cleanseData(result)
 
-	return response, nil
+	return responses, nil
 }
 
 func (m *FindAllMasterEmployeesService) cleanseData(masterData []*entity.MasterEmployeesEntity) (data []*model.MasterEmployeesResponseModel) {
