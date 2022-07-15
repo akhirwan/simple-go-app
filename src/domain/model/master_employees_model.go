@@ -12,6 +12,9 @@ type MasterEmployeesResponseModel struct {
 	Phone    string `json:"phone" db:"phone"`
 	DOB      string `json:"dob" db:"dob"`
 	POB      string `json:"pob" db:"pob"`
+	// IsDeleted  bool      `json:"is_deleted" db:"is_deleted"`
+	// CreatedAt  time.Time `json:"created_at" db:"created_at"`
+	// ModifiedAt time.Time `json:"modified_at" db:"modified_at"`
 }
 
 type MasterEmployeesRequestModel struct {
@@ -30,4 +33,9 @@ type MasterEmployeesRequestModel struct {
 type MasterEmployeesActivateRequestModel struct {
 	ID       int64 `json:"id" db:"id"`
 	IsActive bool  `json:"is_active" db:"is_active"`
+}
+
+type MasterEmployeesDeleteRequestModel struct {
+	ID        int64 `json:"id" db:"id"`
+	IsDeleted bool  `json:"is_deleted" db:"is_deleted"`
 }

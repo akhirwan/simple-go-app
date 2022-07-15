@@ -31,11 +31,26 @@ func (m *FindAllMasterEmployeesService) FindAll() (response []*model.MasterEmplo
 }
 
 func (m *FindAllMasterEmployeesService) cleanseData(masterData []*entity.MasterEmployeesEntity) (data []*model.MasterEmployeesResponseModel) {
+	// pp.Println(len(masterData))
 	for _, row := range masterData {
-		row.JoinDate = row.JoinDate[:10]
-		row.DOB = row.DOB[:10]
+		// for _, rowx := range data {
+		// row.JoinDate = row.JoinDate[:10]
+		// row.DOB = row.DOB[:10]
 
-		data = append(data, (*model.MasterEmployeesResponseModel)(row))
+		data = append(data, &model.MasterEmployeesResponseModel{
+			ID:       row.ID,
+			Name:     row.Name,
+			DeptID:   row.DeptID,
+			Level:    row.Level,
+			JoinDate: row.JoinDate[:10],
+			IsActive: row.IsActive,
+			Address:  row.Address,
+			Email:    row.Email,
+			Phone:    row.Phone,
+			DOB:      row.DOB[:10],
+			POB:      row.POB,
+		})
+		// }
 	}
 
 	return data

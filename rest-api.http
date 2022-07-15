@@ -9,7 +9,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "name": "tatang kolep",
+    "name": "tatang batre",
     "dept_id": "55",
     "level": "5",
     "join_date": "2022-03-03",
@@ -21,12 +21,12 @@ Accept: application/json
 }
 
 ### UPDATE MASTER EMPLOYEE
-PUT http://localhost:1250/employee/20220303007
+PUT http://localhost:1250/employee/20220303002
 Content-Type: application/json
 Accept: application/json
 
 {
-    "name": "udin beton 2",
+    "name": "tatang 2",
     "dept_id": "55",
     "level": "5",
     "join_date": "2022-03-03",
@@ -39,5 +39,10 @@ Accept: application/json
 
 ### ACTIVATE / INACTIVATE MASTER EMPLOYEE
 PATCH http://localhost:1250/employee/activate/20220303004
+Content-Type: application/json
+Accept: application/json
+
+### DELETED STATUS MASTER EMPLOYEE
+PATCH http://localhost:1250/employee/delete/20220303004
 Content-Type: application/json
 Accept: application/json

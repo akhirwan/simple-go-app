@@ -92,3 +92,22 @@ func (m *MasterEmployeesHandler) Activate(c *fiber.Ctx) error {
 		IsActive: isActive,
 	})
 }
+
+func (m *MasterEmployeesHandler) Delete(c *fiber.Ctx) error {
+	task := task.NewMasterEmployeesTask(&task.Task{}, m.Config)
+	httpStatus, isDeleted, err := task.Delete(c.Params("id"))
+	exception.PanicIfNeeded(err)
+
+	if httpStatus == 404 {
+		helper.MessageOK = fmt.Sprintf("ID %s is not found", c.Params("id"))
+		return helper.ResponseNotFound(c, nil)
+	}
+
+	helper.MessageOK = fmt.Sprintf("Data with ID %v is deleted", c.Params("id"))
+	id, _ := strconv.ParseInt(c.Params("id"), 10, 64)
+
+	return helper.ResponseOK(c, &model.MasterEmployeesDeleteRequestModel{
+		ID:        id,
+		IsDeleted: isDeleted,
+	})
+}

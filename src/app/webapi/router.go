@@ -33,6 +33,7 @@ func (a *APIRouter) Route() *fiber.App {
 	a.App.Post("/employee", employeesHandler.Add)
 	a.App.Put("/employee/:id", employeesHandler.Edit)
 	a.App.Patch("employee/activate/:id", employeesHandler.Activate)
+	a.App.Patch("employee/delete/:id", employeesHandler.Delete)
 
 	// departmentsHandler
 

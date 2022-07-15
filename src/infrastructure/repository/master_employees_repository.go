@@ -34,7 +34,10 @@ func (m *MasterEmployeesRepository) Record(data []*entity.MasterEmployeesEntity)
 			email,
 			phone,
 			dob,
-			pob
+			pob,
+			is_deleted,
+			created_at,
+			modified_at
 		) VALUES (
 			:id,
 			:name,
@@ -46,7 +49,10 @@ func (m *MasterEmployeesRepository) Record(data []*entity.MasterEmployeesEntity)
 			:email,
 			:phone,
 			:dob,
-			:pob
+			:pob,
+			:is_deleted,
+			:created_at,
+			:modified_at
 		) ON DUPLICATE KEY UPDATE
 		name		= VALUES(name),
 		level		= VALUES(level),
@@ -56,7 +62,9 @@ func (m *MasterEmployeesRepository) Record(data []*entity.MasterEmployeesEntity)
 		email		= VALUES(email),
 		phone		= VALUES(phone),
 		dob			= VALUES(dob),
-		pob			= VALUES(pob);`,
+		pob			= VALUES(pob),
+		is_deleted	= VALUES(is_deleted),
+		modified_at	= VALUES(modified_at);`,
 		data)
 
 	if err != nil {
@@ -77,7 +85,7 @@ func (m *MasterEmployeesRepository) FindAll() (data []*entity.MasterEmployeesEnt
 
 	tx := m.DB.MustBegin()
 
-	err = tx.Select(&data, `SELECT * FROM master_employee;`)
+	err = tx.Select(&data, `SELECT * FROM master_employee WHERE is_deleted = 0 ORDER BY id DESC;;`)
 
 	if err != nil {
 		pp.Println("[FATAL] From read master_employees : ", err)
@@ -94,6 +102,31 @@ func (m *MasterEmployeesRepository) FindAll() (data []*entity.MasterEmployeesEnt
 }
 
 func (m *MasterEmployeesRepository) FindByID(id string) (*entity.MasterEmployeesEntity, error) {
+	var data []*entity.MasterEmployeesEntity
+
+	tx := m.DB.MustBegin()
+
+	err := tx.Select(&data, `SELECT * FROM master_employee WHERE id = ? AND is_deleted = 0;`, id)
+
+	if err != nil {
+		pp.Println("[FATAL] From read master_employees : ", err)
+		tx.Rollback()
+		return nil, err
+	} else {
+		err = tx.Commit()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if len(data) == 0 {
+		return nil, err
+	}
+
+	return data[0], nil
+}
+
+func (m *MasterEmployeesRepository) FindExistingByID(id string) (*entity.MasterEmployeesEntity, error) {
 	var data []*entity.MasterEmployeesEntity
 
 	tx := m.DB.MustBegin()
@@ -144,29 +177,4 @@ func (m *MasterEmployeesRepository) FindLastID(date time.Time) (result int64, er
 	}
 
 	return result, nil
-}
-
-func (m *MasterEmployeesRepository) IsExistByID(id string) (bool, error) {
-	var data []*entity.MasterEmployeesEntity
-
-	tx := m.DB.MustBegin()
-
-	err := tx.Select(&data, `SELECT * FROM master_employee WHERE id = ?;`, id)
-
-	if err != nil {
-		pp.Println("[FATAL] From read master_employees : ", err)
-		tx.Rollback()
-		return false, err
-	} else {
-		err = tx.Commit()
-		if err != nil {
-			return false, err
-		}
-	}
-
-	if len(data) == 0 {
-		return false, err
-	}
-
-	return true, nil
 }

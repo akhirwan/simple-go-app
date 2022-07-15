@@ -66,3 +66,13 @@ func (m *masterEmployeesTask) Activate(id string) (int, bool, error) {
 
 	return httpStatus, isActive, nil
 }
+
+func (m *masterEmployeesTask) Delete(id string) (int, bool, error) {
+	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
+
+	employeeService := employees.NewDeleteMasterEmployeesService(employeeRepo)
+	httpStatus, isActive, err := employeeService.Delete(id)
+	exception.PanicIfNeeded(err)
+
+	return httpStatus, isActive, nil
+}

@@ -30,17 +30,20 @@ func (m *AddMasterEmployeesService) Add(request *model.MasterEmployeesRequestMod
 	}
 
 	row := &entity.MasterEmployeesEntity{
-		ID:       request.ID,
-		Name:     request.Name,
-		DeptID:   request.DeptID,
-		Level:    request.Level,
-		JoinDate: request.JoinDate,
-		IsActive: false,
-		Address:  request.Address,
-		Email:    request.Email,
-		Phone:    request.Phone,
-		DOB:      request.DOB,
-		POB:      request.POB,
+		ID:         request.ID,
+		Name:       request.Name,
+		DeptID:     request.DeptID,
+		Level:      request.Level,
+		JoinDate:   request.JoinDate,
+		IsActive:   false,
+		Address:    request.Address,
+		Email:      request.Email,
+		Phone:      request.Phone,
+		DOB:        request.DOB,
+		POB:        request.POB,
+		IsDeleted:  false,
+		CreatedAt:  time.Now(),
+		ModifiedAt: time.Now(),
 	}
 
 	data = append(data, row)
