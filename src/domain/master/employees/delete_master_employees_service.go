@@ -40,5 +40,5 @@ func (m *DeleteMasterEmployeesService) Delete(id string) (httpStatus int, isDele
 	err = m.Repository.Record(data)
 	exception.PanicIfNeeded(err)
 
-	return http.StatusOK, isDeleted, nil
+	return http.StatusOK, row.IsDeleted, nil
 }

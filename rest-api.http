@@ -51,3 +51,8 @@ Accept: application/json
 PATCH http://localhost:1250/employee/delete/20220303004
 Content-Type: application/json
 Accept: application/json
+
+### REMOVE FOREVER MASTER EMPLOYEE ***BE CAREFULL
+DELETE http://localhost:1250/employee/2022030300488
+Content-Type: application/json
+Accept: application/json

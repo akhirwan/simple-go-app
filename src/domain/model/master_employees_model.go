@@ -30,12 +30,17 @@ type MasterEmployeesRequestModel struct {
 	POB      string `json:"pob" db:"pob"`
 }
 
-type MasterEmployeesActivateRequestModel struct {
+type MasterEmployeesActivateResponseModel struct {
 	ID       int64 `json:"id" db:"id"`
 	IsActive bool  `json:"is_active" db:"is_active"`
 }
 
-type MasterEmployeesDeleteRequestModel struct {
+type MasterEmployeesDeleteResponseModel struct {
 	ID        int64 `json:"id" db:"id"`
 	IsDeleted bool  `json:"is_deleted" db:"is_deleted"`
+}
+
+type MasterEmployeesRemoveResponseModel struct {
+	ID        int64 `json:"id" db:"id"`
+	IsRemoved bool  `json:"is_forever_removed" db:"is_forever_removed"`
 }

@@ -99,7 +99,7 @@ func (m *MasterEmployeesHandler) Activate(c *fiber.Ctx) error {
 	helper.MessageOK = fmt.Sprintf("Data with ID %v is updated", c.Params("id"))
 	id, _ := strconv.ParseInt(c.Params("id"), 10, 64)
 
-	return helper.ResponseOK(c, &model.MasterEmployeesActivateRequestModel{
+	return helper.ResponseOK(c, &model.MasterEmployeesActivateResponseModel{
 		ID:       id,
 		IsActive: isActive,
 	})
@@ -116,10 +116,32 @@ func (m *MasterEmployeesHandler) Delete(c *fiber.Ctx) error {
 	}
 
 	helper.MessageOK = fmt.Sprintf("Data with ID %v is deleted", c.Params("id"))
+	if !isDeleted {
+		helper.MessageOK = fmt.Sprintf("Data with ID %v is reappeared", c.Params("id"))
+	}
+
 	id, _ := strconv.ParseInt(c.Params("id"), 10, 64)
 
-	return helper.ResponseOK(c, &model.MasterEmployeesDeleteRequestModel{
+	return helper.ResponseOK(c, &model.MasterEmployeesDeleteResponseModel{
 		ID:        id,
 		IsDeleted: isDeleted,
+	})
+}
+
+func (m *MasterEmployeesHandler) Remove(c *fiber.Ctx) error {
+	task := task.NewMasterEmployeesTask(&task.Task{}, m.Config)
+	httpStatus, err := task.Remove(c.Params("id"))
+	exception.PanicIfNeeded(err)
+
+	if httpStatus == 404 {
+		helper.MessageOK = fmt.Sprintf("ID %s is not found", c.Params("id"))
+		return helper.ResponseNotFound(c, nil)
+	}
+
+	helper.MessageOK = fmt.Sprintf("ID %s cannot be found in the future", c.Params("id"))
+	id, _ := strconv.ParseInt(c.Params("id"), 10, 64)
+	return helper.ResponseOK(c, &model.MasterEmployeesRemoveResponseModel{
+		ID:        id,
+		IsRemoved: true,
 	})
 }

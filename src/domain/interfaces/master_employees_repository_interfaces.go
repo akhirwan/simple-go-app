@@ -11,4 +11,5 @@ type MasterEmployeesRepositoryInterfaces interface {
 	FindByID(id string) (*entity.MasterEmployeesEntity, error)
 	FindExistingByID(id string) (*entity.MasterEmployeesEntity, error)
 	FindLastID(date time.Time) (result int64, err error)
+	Delete(id string) error
 }

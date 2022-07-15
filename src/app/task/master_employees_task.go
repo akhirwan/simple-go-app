@@ -81,8 +81,18 @@ func (m *masterEmployeesTask) Delete(id string) (int, bool, error) {
 	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
 
 	employeeService := employees.NewDeleteMasterEmployeesService(employeeRepo)
-	httpStatus, isActive, err := employeeService.Delete(id)
+	httpStatus, isDeleted, err := employeeService.Delete(id)
 	exception.PanicIfNeeded(err)
 
-	return httpStatus, isActive, nil
+	return httpStatus, isDeleted, nil
+}
+
+func (m *masterEmployeesTask) Remove(id string) (int, error) {
+	employeeRepo := repository.NewMasterEmployeesRepository(m.DB)
+
+	employeeService := employees.NewRemoveMasterEmployeesService(employeeRepo)
+	httpStatus, err := employeeService.Remove(id)
+	exception.PanicIfNeeded(err)
+
+	return httpStatus, nil
 }

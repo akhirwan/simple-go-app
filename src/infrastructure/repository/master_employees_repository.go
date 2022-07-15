@@ -178,3 +178,24 @@ func (m *MasterEmployeesRepository) FindLastID(date time.Time) (result int64, er
 
 	return result, nil
 }
+
+func (m *MasterEmployeesRepository) Delete(id string) error {
+	tx := m.DB.MustBegin()
+
+	_, err := tx.NamedExec(
+		`DELETE FROM master_employee WHERE id = :id;`,
+		map[string]interface{}{"id": id})
+
+	if err != nil {
+		pp.Println("[FATAL] From read master_employees : ", err.Error())
+		tx.Rollback()
+		return err
+	} else {
+		err = tx.Commit()
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
